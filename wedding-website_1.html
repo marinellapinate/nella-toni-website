@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nella &amp; Toni — October 23, 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ═══════════════════════════════════════════════════
+       COLOR PALETTE & FONTS
+       ▸ Change these variables to restyle the whole site
+    ═══════════════════════════════════════════════════ */
+    :root {
+      --bg:        #EDE8DF;  /*#0D0B09*/ 
+      --surface:   #F5F0EB; /*1A1612*/
+      --border:    rgba(255,255,255,0.08);
+      --gold:      #C9A84C;
+      --gold-dim:  rgba(201,168,76,0.2);
+      --text:      #0D0B09; /*EDE8DF*/
+      --muted:     rgba(26,22,18,0.6); /*rgba(237,232,223,0.5)*/
+      --white:     #FFFFFF;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'DM Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* ─── NAVIGATION ────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; width: 100%;
+      z-index: 200;
+      padding: 1.25rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(13,11,9,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-monogram {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--gold);
+    }
+    .nav-links { list-style: none; display: flex; gap: 2rem; }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    /* ─── HERO ───────────────────────────────────────
+       HOW BACKGROUND PHOTOS WORK:
+       · background-image: url(...)  — sets the photo
+       · background-size: cover      — fills the box
+       · background-position: center — centers the photo
+       · background-attachment: fixed — parallax effect
+    ────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      background-image: url('1-227.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    /* Dark overlay so text is readable over the photo */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(13,11,9,0.3), rgba(13,11,9,0.65));
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 18rem 2rem 5rem;
+    }
+
+    .hero-eyebrow {
+      font-size: 1.5rem;
+      font-weight: 700;
+      padding-left: 2rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 9vw, 7.5rem);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.05;
+      color: var(--white);
+      text-shadow: 0 2px 40px rgba(0,0,0,0.4);
+    }
+
+    .hero-and {
+      font-size: clamp(2rem, 5vw, 4rem);
+      color: var(--gold);
+      display: block;
+      margin: 0.2em 0;
+    }
+
+    .hero-date {
+      margin-top: 2.5rem;
+      font-size: 1.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* ─── GALLERY ────────────────────────────────────
+       CSS Grid with named areas — like drawing a layout:
+       "big   top-mid  top-right"
+       "big   bot-mid  bot-right"
+       Each name maps to a .gallery-item via grid-area.
+    ────────────────────────────────────────────────── */
+    .gallery-section {
+      padding: 5rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .gallery-grid {
+      display: grid;
+      gap: 0.75rem;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      grid-template-rows: 280px 280px;
+      grid-template-areas:
+        "big   top-mid  top-right"
+        "big   bot-mid  bot-right";
+    }
+
+    .gallery-item { overflow: hidden; position: relative; }
+    .gallery-item:nth-child(1) { grid-area: big; }
+    .gallery-item:nth-child(2) { grid-area: top-mid; }
+    .gallery-item:nth-child(3) { grid-area: top-right; }
+    .gallery-item:nth-child(4) { grid-area: bot-mid; }
+    .gallery-item:nth-child(5) { grid-area: bot-right; }
+
+    /* <img> fills its container without distorting */
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    .gallery-item:hover img { transform: scale(1.06); }
+
+    .gallery-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 2px solid var(--gold);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .gallery-item:hover::after { opacity: 1; }
+
+    /* ─── SHARED SECTION STYLES ─────────────────────── */
+    .section-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 2px solid var(--gold-dim);
+      padding: 0.35rem 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 400;
+      font-style: italic;
+      color: #000000;
+      margin-bottom: 1.25rem;
+      line-height: 1.2;
+    }
+
+    .section-body {
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 300;
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.9;
+    }
+
+    .rule {
+      width: 60px; height: 1px;
+      background: var(--gold);
+      margin: 1.5rem auto;
+      opacity: 0.5;
+    }
+
+    /* ─── EVENT DETAIL CARDS CSS ────────────────────────── */
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .detail-card {
+      border-radius: 12px;
+      height: 500px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+      text-align: left;
+      position: relative;
+    }
+
+    .detail-card-image {
+      width: 40%;
+      height: 100%;
+      min-height: 300px;
+      object-fit: cover;
+      flex-shrink: 0;
+      align-self: stretch;
+    }
+
+    .detail-card > div {
+      background: var(--surface);
+      flex: 1;
+      padding: 2rem;
+    }
+
+    .detail-card-accent {
+      position: absolute;
+      top: 0; left: 2rem;
+      width: 40px; height: 2px;
+      background: var(--gold);
+    }
+
+    .detail-card-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: inline-block;
+      padding: 0rem 0rem; /*0.25rem 0.75rem;*/
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+    }
+
+    .detail-card-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-style: italic;
+      color: #000000;
+      margin-bottom: 1.25rem;
+    }
+
+    .info-row {
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .info-icon { color: var(--gold); flex-shrink: 0; margin-top: 2px; }
+    .info-label { font-size: 0.72rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); display: block; }
+    .info-value { font-size: 0.92rem; font-weight: 300; color: var(--muted); display: block; }
+
+    /* ─── PHOTO STRIP ───────────────────────────────── */
+    .photo-strip {
+      position: relative;
+      height: 380px;
+      overflow: hidden;
+      background-image: url('1-227.jpeg');
+      background-size: cover;
+      background-position: center 30%;
+      background-attachment: fixed;
+    }
+
+    .photo-strip-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(13,11,9,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .photo-strip-quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 4vw, 2.8rem);
+      font-style: italic;
+      color: var(--white);
+      text-align: center;
+      max-width: 700px;
+      padding: 0 2rem;
+    }
+
+    /* ─── RSVP SECTION ──────────────────────────────── */
+    .rsvp-section {
+      border-top: 1px solid var(--border);
+    }
+
+    .rsvp-split {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .rsvp-photo-side {
+      flex: 1;
+      position: relative;
+      background-image: url('MARIANELLA&TONY1059.jpg');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rsvp-photo-side::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(13,11,9,0.12);
+    }
+
+    .rsvp-photo-quote {
+      position: relative;
+      z-index: 1;
+      padding: 3rem;
+      text-align: center;
+      margin-top: -50rem;
+    }
+
+    .rsvp-photo-quote p {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+      font-style: italic;
+      color: var(--white);
+      line-height: 1.4;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+    }
+
+    .rsvp-photo-quote span {
+      display: block;
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-style: normal;
+    }
+
+    .rsvp-form-side {
+      flex: 1;
+      background: var(--surface);
+      padding: 5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* ─── COUNTDOWN ──────────────────────────────────── */
+    .countdown-wrap {
+      display: flex;
+      justify-content: flex-start;
+      gap: 1rem;
+      margin: 1.5rem 0 2rem;
+    }
+
+    .countdown-block {
+      text-align: center;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--gold-dim);
+      padding: 0.85rem 1rem;
+      min-width: 64px;
+    }
+
+    .countdown-number {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--gold);
+      line-height: 1;
+      display: block;
+    }
+
+    .countdown-label {
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.4rem;
+      display: block;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      text-align: left;
+      margin-top: 2.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+    label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    input, select, textarea {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 300;
+      padding: 0.8rem 1rem;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    input:focus, select:focus, textarea:focus { border-color: var(--gold); }
+    select option { background: #1A1612; }
+    textarea { resize: vertical; min-height: 90px; }
+
+    .radio-group { display: flex; gap: 1.5rem; margin-top: 0.25rem; }
+
+    .radio-option {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.9rem; font-weight: 300;
+      color: var(--muted); cursor: pointer;
+    }
+
+    .radio-option input[type="radio"] { width: auto; accent-color: var(--gold); }
+
+    .btn-submit {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--gold);
+      border: none;
+      padding: 1rem 3rem;
+      cursor: pointer;
+      align-self: center;
+      margin-top: 0.5rem;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .btn-submit:hover  { opacity: 0.85; }
+    .btn-submit:active { transform: scale(0.98); }
+
+    .rsvp-confirmation { display: none; text-align: center; padding: 2rem 0; }
+    .rsvp-confirmation.visible { display: block; }
+
+    .confirm-icon {
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: var(--gold-dim);
+      border: 1px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+
+    .confirm-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-style: italic;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+
+    .confirm-sub { font-size: 0.9rem; color: var(--muted); font-weight: 300; }
+
+    /* ─── RSVP LOG ──────────────────────────────────── */
+    .rsvp-log-section {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    .rsvp-log-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+    }
+
+    .rsvp-log-empty { font-size: 0.85rem; color: var(--muted); }
+
+    .rsvp-entry {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--gold);
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .rsvp-entry-name { font-weight: 500; font-size: 0.9rem; color: var(--text); }
+    .rsvp-entry-meta { font-size: 0.8rem; color: var(--muted); font-weight: 300; }
+
+    .rsvp-badge {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .badge-yes { background: rgba(100,180,100,0.15); color: #7DC97D; border: 1px solid rgba(100,180,100,0.3); }
+    .badge-no  { background: rgba(180,100,100,0.12); color: #C97D7D; border: 1px solid rgba(180,100,100,0.25); }
+
+    .btn-clear {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .btn-clear:hover { color: var(--text); border-color: var(--muted); }
+
+    /* ─── FOOTER ────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    footer .footer-names {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-style: italic;
+      color: var(--black);
+      margin-bottom: 0.5rem;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────── */
+    @media (max-width: 700px) {
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 200px 200px 200px;
+        grid-template-areas: "big big" "top-mid top-right" "bot-mid bot-right";
+      }
+      .details-grid { grid-template-columns: 1fr; }
+      .form-row      { grid-template-columns: 1fr; }
+      .nav-links     { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="nav-monogram">N &amp; T</span>
+    <ul class="nav-links">
+      <li><a href="#details">Details</a></li>
+      <li><a href="#stay">Hotels</a></li>
+      <li><a href="#directions">Directions</a></li>
+      <li><a href="#rsvp">RSVP</a></li>
+      <li><a href="#registry">Registry</a></li>
+    </ul>
+  </nav>
+
+  <!-- ══ HERO: full photo background ══════════════════ -->
+  <section class="hero" id="home">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">You are invited</p>
+      <h1>
+        Nella
+        <span class="hero-and">&amp;</span>
+        Toni
+      </h1>
+      <div class="rule"></div>
+      <p class="hero-date">Friday · 23 October 2026 · Tarragona, Spain</p>
+    </div>
+  </section>
+
+
+   <!-- ══ DETAILS ════════════════════════════════════ -->
+  <section id="details">
+    <div class="section-wrap" style="max-width: 1200px;">
+      <span class="tag">Mark your calendar</span>
+      <h2 class="section-title">Event Details</h2>
+      <div class="rule"></div>
+      <p class="section-body">Join us for the party of the year!</p>
+
+      <div class="details-grid">
+
+        <div class="detail-card">
+          <img class="detail-card-image" src="MARIANELLATONY1454.jpg" alt="Welcome Cocktail" />
+          <div style="padding: 2rem;">
+            <div class="detail-card-accent"></div>
+            <p class="detail-card-label">Thursday, 22 October 2026</p>
+            <p class="detail-card-title">Welcome Cocktail</p>
+            <div class="info-row">
+              <svg class="info-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>
+              </svg>
+              <div><span class="info-label">Time</span><span class="info-value">TBD</span></div>
+            </div>
+            <div class="info-row">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-tower"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 3h1a1 1 0 0 1 1 1v2h3v-2a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2h3v-2a1 1 0 0 1 1 -1h1a1 1 0 0 1 1 1v4.394a2 2 0 0 1 -.336 1.11l-1.328 1.992a2 2 0 0 0 -.336 1.11v7.394a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1v-7.394a2 2 0 0 0 -.336 -1.11l-1.328 -1.992a2 2 0 0 1 -.336 -1.11v-4.394a1 1 0 0 1 1 -1" /><path d="M10 21v-5a2 2 0 1 1 4 0v5" />
+              </svg>
+              <div><span class="info-label">Venue</span><span class="info-value">El Pati dels Tarongers<br/>Plaça de l'Església, 6, 43893 Altafulla, Tarragona, Spain</span></div>
+            </div>
+            <div class="info-row">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-map"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3v-13" /><path d="M9 4v13" /><path d="M15 7v13" />
+              </svg>
+              <div><span class="info-label">Directions</span><span class="info-value"><a href="https://maps.app.goo.gl/PonJ9AKQDzNuCM6d9" target="_blank" style="color: inherit;">Open in Google Maps</a></span></div>
+            </div>
+            <div class="info-row">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-shirt"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 4l6 2v5h-3v8a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1v-8h-3v-5l6 -2a3 3 0 0 0 6 0" />
+              </svg>
+              <div><span class="info-label">Dress code</span><span class="info-value">All White Cocktail Party.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <img class="detail-card-image" src="pablito.jpeg" alt="Ceremony" />
+          <div style="padding: 2rem;">
+            <div class="detail-card-accent"></div>
+            <p class="detail-card-label">Friday, 23 October 2026</p>
+            <p class="detail-card-title">Ceremony & Reception</p>
+            <div class="info-row">
+              <svg class="info-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>
+              </svg>
+              <div><span class="info-label">Time</span><span class="info-value">TBD</span></div>
+            </div>
+            <div class="info-row">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-tower"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 3h1a1 1 0 0 1 1 1v2h3v-2a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2h3v-2a1 1 0 0 1 1 -1h1a1 1 0 0 1 1 1v4.394a2 2 0 0 1 -.336 1.11l-1.328 1.992a2 2 0 0 0 -.336 1.11v7.394a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1v-7.394a2 2 0 0 0 -.336 -1.11l-1.328 -1.992a2 2 0 0 1 -.336 -1.11v-4.394a1 1 0 0 1 1 -1" /><path d="M10 21v-5a2 2 0 1 1 4 0v5" />
+              </svg>
+              <div><span class="info-label">Venue</span><span class="info-value">Castell de Tamarit<br/>43008 Tamarit, Tarragona, Spain</span></div>
+            </div>
+            <div class="info-row">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-map"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3v-13" /><path d="M9 4v13" /><path d="M15 7v13" />
+              </svg>
+              <div><span class="info-label">Directions</span><span class="info-value"><a href="https://maps.app.goo.gl/67m1vYuPcxk2He2F8" target="_blank" style="color: inherit;">Open in Google Maps</a></span></div>
+            </div>
+            <div class="info-row">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-shirt"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 4l6 2v5h-3v8a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1v-8h-3v-5l6 -2a3 3 0 0 0 6 0" />
+              </svg>
+              <div><span class="info-label">Dress code</span><span class="info-value"><strong style="font-weight: 700;">Women</strong>: Long evening gown.<br>Please refrain from wearing red.</span>
+              <span class="info-value"><strong style="font-weight: 700;">Men</strong>: Suit and tie.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <img class="detail-card-image" src="Foto_timon_beso.jpeg" alt="After Party" />
+          <div style="padding: 2rem;">
+            <div class="detail-card-accent"></div>
+            <p class="detail-card-label">Saturday, 24 October 2026</p>
+            <p class="detail-card-title">After Party</p>
+            <div class="info-row">
+              <svg class="info-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>
+              </svg>
+              <div><span class="info-label">Time</span><span class="info-value">TBD</span></div>
+            </div>
+            <div class="info-row">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-tower"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 3h1a1 1 0 0 1 1 1v2h3v-2a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2h3v-2a1 1 0 0 1 1 -1h1a1 1 0 0 1 1 1v4.394a2 2 0 0 1 -.336 1.11l-1.328 1.992a2 2 0 0 0 -.336 1.11v7.394a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1v-7.394a2 2 0 0 0 -.336 -1.11l-1.328 -1.992a2 2 0 0 1 -.336 -1.11v-4.394a1 1 0 0 1 1 -1" /><path d="M10 21v-5a2 2 0 1 1 4 0v5" />
+              </svg>
+              <div><span class="info-label">Venue</span><span class="info-value">La Mar de Copas Beach Club<br/>Tamarit Beach Resort, 43008 Tarragona</span></div>
+            </div>
+            <div class="info-row">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-map"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3v-13" /><path d="M9 4v13" /><path d="M15 7v13" />
+              </svg>
+              <div><span class="info-label">Directions</span><span class="info-value"><a href="https://maps.app.goo.gl/XVsVFoZx8c23Nrei9" target="_blank" style="color: inherit;">Open in Google Maps</a></span></div>
+            </div>
+            <div class="info-row">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-shirt"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 4l6 2v5h-3v8a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1v-8h-3v-5l6 -2a3 3 0 0 0 6 0" />
+              </svg>
+              <div><span class="info-label">Dress code</span><span class="info-value"><strong style="font-weight: 700;">Women</strong>: Beach cocktail. Bright colors encouraged.</span>
+              <span class="info-value"><strong style="font-weight: 700;">Men</strong>: Beach cocktail.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<!-- ══ GOOD TO KNOW ══════════════════════════════ -->
+<section id="good-to-know" style="background: var(--surface); padding: 5rem 2rem;">
+  <div class="section-wrap" style="padding: 0;">
+    <span class="tag">Good to know</span>
+    <h2 class="section-title">A couple things to keep in mind</h2>
+    <div class="rule"></div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem; text-align: left;">
+
+      <div style="background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-baby-carriage"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M6 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M16 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M2 5h2.5l1.632 4.897a6 6 0 0 0 5.693 4.103h2.675a5.5 5.5 0 0 0 0 -11h-.5v6" /><path d="M6 9h14" /><path d="M9 17l1 -3" /><path d="M16 14l1 3" />
+          </svg>
+          <p style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold);">Children</p>
+        </div>
+        <p style="font-size: 0.92rem; color: var(--text); line-height: 1.8; font-weight: 300;">We want everyone to let their hair down and enjoy the night to the fullest! That's why our wedding is adults-only.</p>
+        <p style="font-size: 0.92rem; color: var(--text); line-height: 1.8; font-weight: 300; margin-top: 0.75rem;">We completely understand that some of you can't leave your little ones at home. If that's the case, babysitters are available to hire at the venue, just reach out to us and we'll send you all the details.</p>
+        <p style="margin-top: 1.25rem;">
+          <a href="mailto:nellapinate@gmail.com" style="font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--gold-dim); padding-bottom: 2px;">Contact us for babysitting info →</a>
+        </p>
+      </div>
+
+      <div style="background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+          </svg>
+          <p style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold);">RSVP Deadline</p>
+        </div>
+        <p style="font-size: 0.92rem; color: var(--text); line-height: 1.8; font-weight: 300;">Please send us your RSVP by <strong style="font-weight: 600;">1 August 2026</strong> so we can make sure everything is perfect for you.</p>
+        <p style="font-size: 0.92rem; color: var(--text); line-height: 1.8; font-weight: 300; margin-top: 0.75rem;">If anything changes after you've RSVP'd, don't hesitate to get in touch with us directly.</p>
+        <p style="margin-top: 1.25rem;">
+          <a href="#rsvp" style="font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--gold-dim); padding-bottom: 2px;">RSVP now →</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHERE TO STAY ══════════════════════════════ -->
+<section id="stay">
+  <div class="section-wrap" style="max-width: 1200px;">
+    <span class="tag">Plan your stay</span>
+    <h2 class="section-title">Where to Stay</h2>
+    <div class="rule"></div>
+    <p class="section-body">We recommend the following hotels. <span class="info-value" ></span>Please book early as availability is limited! </span>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-top: 3rem;">
+
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.25);">
+        <img src="Tamarit_Beach_Resort.jpeg" alt="Hotel 1" style="width: 100%; height: 200px; object-fit: cover; display: block;" />
+        <div style="padding: 1.5rem; text-align: left;">
+          <p class="detail-card-title">Tamarit Beach Resort</p>
+          <div class="info-row">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="info-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 19l4 -14" /><path d="M16 5l4 14" /><path d="M12 8v-2" /><path d="M12 13v-2" /><path d="M12 18v-2" /></svg>
+            <div><span class="info-label">Distance</span><span class="info-value">5 min walk from the wedding venue</span></div>
+          </div>
+          <div class="info-row">
+            <svg class="info-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            <div><span class="info-label">Book</span><span class="info-value"><a href="https://www.tamarit.com/" target="_blank" style="color: inherit;">Book here →</a></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.25);">
+        <img src="Gran_Claustre.jpg" alt="Hotel 2" style="width: 100%; height: 200px; object-fit: cover; display: block;" />
+        <div style="padding: 1.5rem; text-align: left;">
+          <p class="detail-card-title">Gran Claustre Hotel</p>
+          <div class="info-row">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="info-icon icon-tabler-road"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 19l4 -14" /><path d="M16 5l4 14" /><path d="M12 8v-2" /><path d="M12 13v-2" /><path d="M12 18v-2" />
+            </svg>
+            <div><span class="info-label">Distance</span><span class="info-value">Location of the welcome cocktail & 10 min drive from the wedding venue</span></div>
+          </div>
+          <div class="info-row">
+            <svg class="info-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            <div><span class="info-label">Book</span><span class="info-value"><a href="https://granclaustre.com/" target="_blank" style="color: inherit;">Book here →</a></span><span class="info-value">15% discount with the code <strong style="font-weight: 700;">MARINELLAYANTONI</strong></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.25);">
+        <img src="hotel_may.jpg" alt="Hotel 3" style="width: 100%; height: 200px; object-fit: cover; display: block;" />
+        <div style="padding: 1.5rem; text-align: left;">
+          <p class="detail-card-title">May Boutique Hotel</p>
+          <div class="info-row">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="info-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 19l4 -14" /><path d="M16 5l4 14" /><path d="M12 8v-2" /><path d="M12 13v-2" /><path d="M12 18v-2" /></svg>
+            <div><span class="info-label">Distance</span><span class="info-value">10 min drive from the wedding venue</span></div>
+          </div>
+          <div class="info-row">
+            <svg class="info-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            <div><span class="info-label">Book</span><span class="info-value"><a href="https://www.mayboutiquehotel.com/" target="_blank" style="color: inherit;">Book here →</a></span><span class="info-value">5% discount with the code <strong style="font-weight: 700;">MRTN26</strong></span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ HOW TO GET THERE ══════════════════════════════ -->
+<section id="directions">
+  <div class="section-wrap" style="max-width: 860px;">
+    <span class="tag">Directions</span>
+    <h2 class="section-title">How to get There</h2>
+    <div class="rule"></div>
+    <p class="section-body">The wedding is in the town of <strong style="font-weight: 600;">Altafulla,</strong> about 1 hour from Barcelona's airport. Here's how to get there.</p>
+
+    <div style="margin-top: 3rem; position: relative;">
+
+
+      <!-- Step 1 -->
+      <div style="display: flex; gap: 1.5rem; align-items: flex-start; margin-bottom: 2.5rem; text-align: left;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:0.25rem;">
+          <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+        </svg>
+        <div>
+          <p style="font-family: var(--font-display); font-size: 1.2rem; font-style: italic; color: var(--black); margin-bottom: 0.4rem;">Fly into Barcelona</p>
+          <p style="font-size: 0.92rem; color: var(--muted); font-weight: 300; line-height: 1.8;">Fly to <strong style="font-weight: 600; color: var(--text);">Josep Tarradellas Barcelona-El Prat Airport</strong>. It's the closest international airport, about 1 hour from Altafulla.</p>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div style="display: flex; gap: 1.5rem; align-items: flex-start; margin-bottom: 2.5rem; text-align: left;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:0.25rem;">
+          <rect x="1" y="9" width="22" height="8" rx="2"/><path d="M5 9l2-5h10l2 5"/><circle cx="6.5" cy="17" r="2"/><circle cx="17.5" cy="17" r="2"/>
+        </svg>
+        <div>
+          <p style="font-family: var(--font-display); font-size: 1.2rem; font-style: italic; color: var(--black); margin-bottom: 0.4rem;">Rent a Car <span style="color: var(--gold); font-size: 0.75rem; font-style: normal; font-family: var(--font-body); letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid var(--gold); padding: 0.15rem 0.5rem; margin-left: 0.5rem;">Recommended</span></p>
+          <p style="font-size: 0.92rem; color: var(--muted); font-weight: 300; line-height: 1.8;">We strongly encourage renting a car at the airport. There is <strong style="font-weight: 600; color: var(--text);">no Uber</strong> and taxis are very limited in town. A car gives you full freedom throughout the weekend.</p>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div style="display: flex; gap: 1.5rem; align-items: flex-start; margin-bottom: 2.5rem; text-align: left;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:0.25rem;">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M16 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M4 17h-2v-11a1 1 0 0 1 1 -1h14a5 7 0 0 1 5 7v5h-2m-4 0h-8"/><path d="M16 5l1.5 7l4.5 0"/><path d="M2 10l15 0"/><path d="M7 5l0 5"/><path d="M12 5l0 5"/>
+        </svg>
+        <div>
+          <p style="font-family: var(--font-display); font-size: 1.2rem; font-style: italic; color: var(--black); margin-bottom: 0.4rem;">Alternatively Bus to Tarragona</p>
+          <p style="font-size: 0.92rem; color: var(--muted); font-weight: 300; line-height: 1.8;">If you can't rent a car, take the bus from the airport to Tarragona. You can <a href="https://www.busplana.com/" target="_blank" style="color: var(--gold);">book online at busplana.com</a> or buy your ticket directly at the airport.</p>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div style="display: flex; gap: 1.5rem; align-items: flex-start; margin-bottom: 2.5rem; text-align: left;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:0.25rem;">
+          <rect x="1" y="9" width="22" height="8" rx="2"/><path d="M5 9l2-5h10l2 5"/><circle cx="6.5" cy="17" r="2"/><circle cx="17.5" cy="17" r="2"/><rect x="8" y="2" width="8" height="3" rx="1"/><line x1="12" y1="5" x2="12" y2="9"/>
+        </svg>
+        <div>
+          <p style="font-family: var(--font-display); font-size: 1.2rem; font-style: italic; color: var(--black); margin-bottom: 0.4rem;">Taxi from Tarragona to Altafulla</p>
+          <p style="font-size: 0.92rem; color: var(--muted); font-weight: 300; line-height: 1.8;">From the Tarragona bus or train station, take a taxi to your hotel in Altafulla. <a href="https://www.radiotaxitarragona.com/" target="_blank" style="color: var(--gold);">Radio Taxi Tarragona</a> is the local taxi company.</p>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div style="display: flex; gap: 1.5rem; align-items: flex-start; text-align: left;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:0.25rem;">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M21 13c0 -3.87 -3.37 -7 -10 -7h-8"/><path d="M3 15h16a2 2 0 0 0 2 -2"/><path d="M3 6v5h17.5"/><path d="M3 11v4"/><path d="M8 11v-5"/><path d="M13 11v-4.5"/><path d="M3 19h18"/>
+        </svg>
+        <div>
+          <p style="font-family: var(--font-display); font-size: 1.2rem; font-style: italic; color: var(--black); margin-bottom: 0.4rem;">Coming from Barcelona?</p>
+          <p style="font-size: 0.92rem; color: var(--muted); font-weight: 300; line-height: 1.8;">You can rent a car in Barcelona or take a train from the <strong style="font-weight: 600;">Barcelona-Sants</strong> station. You can take the local train: <strong style="font-weight: 600;">lines R15 or R17</strong> to the station <strong style="font-weight: 600;">Altafulla-Tamarit</strong> or the high-speed rail: <a href="https://www.renfe.com/" target="_blank" style="color: var(--gold);">Renfe</a>, <a href="https://www.ouigo.com/" target="_blank" style="color: var(--gold);">Ouigo</a> and <a href="https://iryo.eu/es/destinos/tren-a-barcelona" target="_blank" style="color: var(--gold);">Iryo</a> to the station <strong style="font-weight: 600;">Camp de Tarragona</strong> and then take a taxi to your hotel in Altafulla.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  <!-- ══ RSVP ══════════════════════════════════════ -->
+  <div class="rsvp-section" id="rsvp">
+    <div class="rsvp-split">
+
+      <!-- Left: photo + quote -->
+      <div class="rsvp-photo-side">
+        <div class="rsvp-photo-quote">
+          <p>"We are ready to party! Are you?"</p>
+          <span>Nella &amp; Toni · 23 October 2026</span>
+        </div>
+      </div>
+
+      <!-- Right: form -->
+      <div class="rsvp-form-side">
+        <span class="tag" style="text-align:left; display:inline-block;">Kindly reply by 1 August 2026</span>
+        <h2 class="section-title" style="text-align:left; margin-top:1rem;">RSVP</h2>
+        <div class="rule" style="margin: 1rem 0;"></div>
+        <p class="section-body" style="text-align:left; margin:0;">Please let us know if you'll be joining us!</p>
+
+        <div class="countdown-wrap">
+          <div class="countdown-block">
+            <span class="countdown-number" id="cd-days">--</span>
+            <span class="countdown-label">Days</span>
+          </div>
+          <div class="countdown-block">
+            <span class="countdown-number" id="cd-hours">--</span>
+            <span class="countdown-label">Hours</span>
+          </div>
+          <div class="countdown-block">
+            <span class="countdown-number" id="cd-minutes">--</span>
+            <span class="countdown-label">Minutes</span>
+          </div>
+          <div class="countdown-block">
+            <span class="countdown-number" id="cd-seconds">--</span>
+            <span class="countdown-label">Seconds</span>
+          </div>
+        </div>
+
+        <form id="rsvp-form" action="https://formspree.io/f/xpqkldbl" method="POST">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="first-name">First Name *</label>
+              <input type="text" id="first-name" name="first-name" placeholder="Sofia" required />
+            </div>
+            <div class="form-group">
+              <label for="last-name">Last Name *</label>
+              <input type="text" id="last-name" name="last-name" placeholder="García" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label>Welcome Cocktail — Thursday, 22 October *</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="attending-cocktail" value="yes" required />
+                Joyfully accepts
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="attending-cocktail" value="no" />
+                Regretfully declines
+              </label>
+            </div>
+            <div id="plusone-cocktail-group" style="display:none; margin-top:0.75rem;">
+              <label>Will you bring a +1?</label>
+              <input type="text" name="plusone-cocktail-name" placeholder="Guest's full name (leave blank if not bringing a +1)" style="margin-top:0.4rem;" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Wedding Ceremony &amp; Reception — Friday, 23 October *</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="attending-wedding" value="yes" required />
+                Joyfully accepts
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="attending-wedding" value="no" />
+                Regretfully declines
+              </label>
+            </div>
+            <div id="plusone-wedding-group" style="display:none; margin-top:0.75rem;">
+              <label>Will you bring a +1?</label>
+              <input type="text" name="plusone-wedding-name" placeholder="Guest's full name (leave blank if not bringing a +1)" style="margin-top:0.4rem;" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>After Party — Saturday, 24 October *</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="attending-afterparty" value="yes" required />
+                Joyfully accepts
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="attending-afterparty" value="no" />
+                Regretfully declines
+              </label>
+            </div>
+            <div id="plusone-afterparty-group" style="display:none; margin-top:0.75rem;">
+              <label>Will you bring a +1?</label>
+              <input type="text" name="plusone-afterparty-name" placeholder="Guest's full name (leave blank if not bringing a +1)" style="margin-top:0.4rem;" />
+            </div>
+          </div>
+
+          <div class="form-group" id="dietary-group">
+            <label for="dietary">Dietary requirements</label>
+            <textarea id="dietary" name="dietary" placeholder="Vegetarian, gluten-free, allergies…"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message for the couple (optional)</label>
+            <textarea id="message" name="message" placeholder="Share your well wishes…"></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit" style="align-self:flex-start;">Send RSVP</button>
+        </form>
+
+        <div class="rsvp-confirmation" id="rsvp-confirmation">
+          <div class="confirm-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <p class="confirm-title" id="confirm-title">Thank you!</p>
+          <p class="confirm-sub" id="confirm-sub">Your RSVP has been received.</p>
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+
+  <section id="registry" style="background: var(--bg); padding: 5rem 2rem;">
+    <div class="section-wrap">
+      <span class="tag">Registry</span>
+      <h2 class="section-title">Your presence is our gift</h2>
+      <div class="rule"></div>
+      <p class="section-body">Having you with us on our wedding day is more than enough.</p>
+      <p class="section-body" style="margin-top: 1.25rem;">However, if you can't make it or if you'd really like to contribute to our honeymoon fund, we would be truly touched. Below you'll find our Bizum, Venmo and Zelle.</p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem; max-width: 680px; margin-left: auto; margin-right: auto;">
+
+        <!-- Bizum (Euros) -->
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; text-align: left;">
+          <p style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.25rem;">Euros €</p>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div>
+              <span style="font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.2rem;">Bizum</span>
+              <span style="font-size: 0.92rem; color: var(--text);">Antoni Rosinol</span>
+            </div>
+            <div>
+              <span style="font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.2rem;">Phone number</span>
+              <span style="font-size: 0.92rem; color: var(--text);">+34 000 000 000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Venmo / Zelle (USD) -->
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; text-align: left;">
+          <p style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.25rem;">US Dollars $</p>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div>
+              <span style="font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.2rem;">Venmo</span>
+              <span style="font-size: 0.92rem; color: var(--text);">@Marinella-Pinate</span>
+            </div>
+            <div style="border-top: 1px solid var(--border); padding-top: 0.75rem;">
+              <span style="font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.2rem;">Zelle</span>
+              <span style="font-size: 0.92rem; color: var(--text);">marinellapinate@hotmail.com</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="footer-names">Nella &amp; Toni</p>
+    <p>23 &middot; 10 &middot; 2026 &nbsp;&middot;&nbsp; Tarragona, Spain</p>
+  </footer>
+
+  <script>
+    // Show per-event +1 name box when any radio in that event is chosen
+    ['cocktail', 'wedding', 'afterparty'].forEach(event => {
+      document.querySelectorAll(`input[name="attending-${event}"]`).forEach(r => {
+        r.addEventListener('change', function () {
+          document.getElementById(`plusone-${event}-group`).style.display = 'block';
+          if (event === 'wedding') {
+            const attending = this.value === 'yes';
+            document.getElementById('guests-group').style.display  = attending ? 'flex' : 'none';
+            document.getElementById('dietary-group').style.display = attending ? 'flex' : 'none';
+          }
+        });
+      });
+    });
+
+    document.getElementById('rsvp-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const firstName = document.getElementById('first-name').value.trim();
+      const lastName  = document.getElementById('last-name').value.trim();
+      const email     = document.getElementById('email').value.trim();
+      const attendedCocktail   = document.querySelector('input[name="attending-cocktail"]:checked');
+      const attendedWedding    = document.querySelector('input[name="attending-wedding"]:checked');
+      const attendedAfterparty = document.querySelector('input[name="attending-afterparty"]:checked');
+
+      if (!firstName || !lastName || !email || !attendedCocktail || !attendedWedding || !attendedAfterparty) {
+        alert('Please fill in all required fields (*).');
+        return;
+      }
+
+      const newRsvp = {
+        name:      firstName + ' ' + lastName,
+        email,
+        cocktail:    attendedCocktail.value,
+        wedding:     attendedWedding.value,
+        afterparty:  attendedAfterparty.value,
+        guests:    attendedWedding.value === 'yes' ? document.getElementById('guests').value : '—',
+        dietary:   document.getElementById('dietary').value.trim() || '—',
+        message:   document.getElementById('message').value.trim() || '—',
+        date:      new Date().toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })
+      };
+
+      let existing = [];
+      try { existing = JSON.parse(localStorage.getItem('rsvps') || '[]'); } catch(e) {}
+      existing.push(newRsvp);
+      try { localStorage.setItem('rsvps', JSON.stringify(existing)); } catch(e) {}
+
+      const yes = attendedWedding.value === 'yes'; 
+      document.getElementById('confirm-title').textContent = yes
+        ? `We cannot wait to see you, ${firstName}!`
+        : `We will miss you, ${firstName}.`;
+      document.getElementById('confirm-sub').textContent = yes
+        ? 'Your RSVP has been saved. See you in Tarragona!'
+        : 'Thank you for letting us know!';
+
+      document.getElementById('rsvp-form').style.display = 'none';
+      document.getElementById('rsvp-confirmation').classList.add('visible');
+
+      renderLog();
+    });
+
+    function renderLog() {
+      const list  = document.getElementById('rsvp-log-list');
+      const clear = document.getElementById('btn-clear');
+      if (!list || !clear) return; // elements not present on page, skip safely
+      let rsvps = [];
+      try { rsvps = JSON.parse(localStorage.getItem('rsvps') || '[]'); } catch(e) {}
+
+      if (!rsvps.length) {
+        list.innerHTML = '<p class="rsvp-log-empty">No RSVPs yet &mdash; be the first!</p>';
+        clear.style.display = 'none';
+        return;
+      }
+
+      clear.style.display = 'inline-block';
+
+      list.innerHTML = rsvps.map(r => `
+        <div class="rsvp-entry">
+          <div>
+            <p class="rsvp-entry-name">${r.name}</p>
+            <p class="rsvp-entry-meta">${r.email} · ${r.date}</p>
+          </div>
+          <span class="rsvp-badge ${r.wedding === 'yes' ? 'badge-yes' : 'badge-no'}">
+            ${r.wedding === 'yes' ? 'Attending' : 'Declining'}
+          </span>
+        </div>
+      `).join('');
+    }
+
+    const btnClear = document.getElementById('btn-clear');
+    if (btnClear) {
+      btnClear.addEventListener('click', () => {
+      if (confirm('Clear all saved RSVPs? This cannot be undone.')) {
+        localStorage.removeItem('rsvps');
+        renderLog();
+      }
+    });
+    }
+
+    renderLog();
+
+    // COUNTDOWN TIMER
+    function updateCountdown() {
+      const weddingDate = new Date('2026-10-23T18:00:00');
+      const now = new Date();
+      const diff = weddingDate - now;
+
+      if (diff <= 0) {
+        document.getElementById('cd-days').textContent = '00';
+        document.getElementById('cd-hours').textContent = '00';
+        document.getElementById('cd-minutes').textContent = '00';
+        document.getElementById('cd-seconds').textContent = '00';
+        return;
+      }
+
+      const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours   = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('cd-days').textContent    = String(days).padStart(2, '0');
+      document.getElementById('cd-hours').textContent   = String(hours).padStart(2, '0');
+      document.getElementById('cd-minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('cd-seconds').textContent = String(seconds).padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
