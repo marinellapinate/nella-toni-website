@@ -1692,4 +1692,52 @@
       });
 
       // innerHTML nodes (elements containing <strong>, <br>, <a>, etc.)
-      document.querySelectorAll('[data-i18n-html]').forEac
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        if (t[key] !== undefined) el.innerHTML = t[key];
+      });
+
+      // placeholder attributes
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key] !== undefined) el.placeholder = t[key];
+      });
+
+      // html lang attribute
+      document.documentElement.lang = lang;
+
+      // active button state
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+      });
+
+      // persist
+      try { localStorage.setItem('wedding-lang', lang); } catch(e) {}
+      currentLang = lang;
+    }
+
+    // Initialise from saved preference (default EN)
+    (function () {
+      let saved = 'en';
+      try { saved = localStorage.getItem('wedding-lang') || 'en'; } catch(e) {}
+      if (translations[saved]) setLanguage(saved);
+    })();
+
+    // ─── HAMBURGER MENU ─────────────────────────────────────
+    function toggleMenu() {
+      const links = document.querySelector('.nav-links');
+      const btn   = document.getElementById('hamburger');
+      links.classList.toggle('open');
+      btn.classList.toggle('open');
+    }
+    // Close menu when any nav link is clicked
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => {
+        document.querySelector('.nav-links').classList.remove('open');
+        document.getElementById('hamburger').classList.remove('open');
+      });
+    });
+
+  </script>
+</body>
+</html>
