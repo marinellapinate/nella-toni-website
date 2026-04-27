@@ -1167,4 +1167,82 @@
       try { localStorage.setItem('rsvps', JSON.stringify(existing)); } catch(e) {}
 
       const yes = attendedWedding.value === 'yes';
-     
+     document.getElementById('confirm-title').textContent = yes
+        ? `We cannot wait to see you, ${firstName}!`
+        : `We will miss you, ${firstName}.`;
+      document.getElementById('confirm-sub').textContent = yes
+        ? 'Your RSVP has been saved. See you in Tarragona!'
+        : 'Thank you for letting us know!';
+
+      document.getElementById('rsvp-form').style.display = 'none';
+      document.getElementById('rsvp-confirmation').classList.add('visible');
+
+      renderLog();
+    });
+
+    function renderLog() {
+      const list  = document.getElementById('rsvp-log-list');
+      const clear = document.getElementById('btn-clear');
+      let rsvps = [];
+      try { rsvps = JSON.parse(localStorage.getItem('rsvps') || '[]'); } catch(e) {}
+
+      if (!rsvps.length) {
+        list.innerHTML = '<p class="rsvp-log-empty">No RSVPs yet &mdash; be the first!</p>';
+        clear.style.display = 'none';
+        return;
+      }
+
+      clear.style.display = 'inline-block';
+
+      list.innerHTML = rsvps.map(r => `
+        <div class="rsvp-entry">
+          <div>
+            <p class="rsvp-entry-name">${r.name}</p>
+            <p class="rsvp-entry-meta">${r.email} · ${r.date}</p>
+          </div>
+          <span class="rsvp-badge ${r.wedding === 'yes' ? 'badge-yes' : 'badge-no'}">
+            ${r.wedding === 'yes' ? 'Attending' : 'Declining'}
+          </span>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('btn-clear').addEventListener('click', () => {
+      if (confirm('Clear all saved RSVPs? This cannot be undone.')) {
+        localStorage.removeItem('rsvps');
+        renderLog();
+      }
+    });
+
+    renderLog();
+
+    // COUNTDOWN TIMER
+    function updateCountdown() {
+      const weddingDate = new Date('2026-10-23T18:00:00');
+      const now = new Date();
+      const diff = weddingDate - now;
+
+      if (diff <= 0) {
+        document.getElementById('cd-days').textContent = '00';
+        document.getElementById('cd-hours').textContent = '00';
+        document.getElementById('cd-minutes').textContent = '00';
+        document.getElementById('cd-seconds').textContent = '00';
+        return;
+      }
+
+      const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours   = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('cd-days').textContent    = String(days).padStart(2, '0');
+      document.getElementById('cd-hours').textContent   = String(hours).padStart(2, '0');
+      document.getElementById('cd-minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('cd-seconds').textContent = String(seconds).padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
