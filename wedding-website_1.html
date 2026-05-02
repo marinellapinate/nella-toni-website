@@ -1289,12 +1289,11 @@
       })
       .then(function() {
         const yes = attendedWedding.value === 'yes';
-        document.getElementById('confirm-title').textContent = yes
-          ? 'We cannot wait to see you, ' + firstName + '!'
-          : 'We will miss you, ' + firstName + '.';
-        document.getElementById('confirm-sub').textContent = yes
-          ? 'Your RSVP has been saved. See you in Tarragona!'
-          : 'Thank you for letting us know!';
+        const t = translations[currentLang] || translations['en'];
+        const titleKey = yes ? 'confirm.yes' : 'confirm.no';
+        const subKey   = yes ? 'confirm.yes.sub' : 'confirm.no.sub';
+        document.getElementById('confirm-title').textContent = (t[titleKey] || '').replace('{name}', firstName);
+        document.getElementById('confirm-sub').textContent   = t[subKey] || '';
 
         document.getElementById('rsvp-form').style.display = 'none';
         document.getElementById('rsvp-confirmation').classList.add('visible');
@@ -1473,6 +1472,10 @@
         'form.message':    'Message for the couple (optional)',
         'form.message.ph': 'Share your well wishes…',
         'form.submit':     'Send RSVP',
+        'confirm.yes':    'We cannot wait to see you, {name}!',
+        'confirm.yes.sub':'Your RSVP has been saved. See you in Tarragona!',
+        'confirm.no':     'We will miss you, {name}.',
+        'confirm.no.sub': 'Thank you for letting us know!',
         // Registry
         'registry.tag':   'Registry',
         'registry.title': 'Your presence is our gift',
@@ -1578,6 +1581,10 @@
         'form.message':    'Mensaje para la pareja (opcional)',
         'form.message.ph': 'Comparte tus mejores deseos…',
         'form.submit':     'Enviar RSVP',
+        'confirm.yes':    '¡No podemos esperar a verte, {name}!',
+        'confirm.yes.sub':'Tu RSVP ha sido guardado. ¡Nos vemos en Tarragona!',
+        'confirm.no':     'Te echaremos de menos, {name}.',
+        'confirm.no.sub': '¡Gracias por avisarnos!',
         // Registry
         'registry.tag':   'Regalos',
         'registry.title': 'Tu presencia es nuestro regalo',
@@ -1683,6 +1690,10 @@
         'form.message':    'Missatge per a la parella (opcional)',
         'form.message.ph': 'Comparteix els teus bons desitjos…',
         'form.submit':     'Enviar RSVP',
+        'confirm.yes':    'No podem esperar a veure\'t, {name}!',
+        'confirm.yes.sub':'El teu RSVP s\'ha guardat. Ens veiem a Tarragona!',
+        'confirm.no':     'Et trobarem a faltar, {name}.',
+        'confirm.no.sub': 'Gràcies per avisar-nos!',
         // Registry
         'registry.tag':   'Regals',
         'registry.title': 'La teva presència és el nostre regal',
