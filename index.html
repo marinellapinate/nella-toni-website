@@ -520,11 +520,11 @@
       font-family: var(--font-display);
       font-size: 2rem;
       font-style: italic;
-      color: #000;
+      color: #000 !important;
       margin-bottom: 0.5rem;
     }
 
-    .confirm-sub { font-size: 0.9rem; color: #000; font-weight: 300; }
+    .confirm-sub { font-size: 0.9rem; color: #000 !important; font-weight: 300; }
 
     /* ─── RSVP LOG ──────────────────────────────────── */
     .rsvp-log-section {
@@ -1233,15 +1233,14 @@
   </footer>
 
   <script>
-    // Show per-event +1 name box when any radio in that event is chosen
+    // Show per-event +1 name box only when guest accepts
     ['cocktail', 'wedding', 'afterparty'].forEach(event => {
       document.querySelectorAll(`input[name="attending-${event}"]`).forEach(r => {
         r.addEventListener('change', function () {
-          document.getElementById(`plusone-${event}-group`).style.display = 'block';
+          const accepting = this.value === 'yes';
+          document.getElementById(`plusone-${event}-group`).style.display = accepting ? 'block' : 'none';
           if (event === 'wedding') {
-            const attending = this.value === 'yes';
-            document.getElementById('guests-group').style.display  = attending ? 'flex' : 'none';
-            document.getElementById('dietary-group').style.display = attending ? 'flex' : 'none';
+            document.getElementById('dietary-group').style.display = accepting ? 'flex' : 'none';
           }
         });
       });
