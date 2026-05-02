@@ -40,6 +40,7 @@
       position: fixed;
       top: 0; width: 100%;
       z-index: 200;
+      overflow: visible;
       padding: 1.25rem 2.5rem;
       display: flex;
       justify-content: space-between;
@@ -636,17 +637,20 @@
       .nav-links {
         display: none;
         flex-direction: column;
-        gap: 1.75rem;
-        position: fixed;
-        inset: 0;
-        background: rgba(13,11,9,0.97);
-        justify-content: center;
+        gap: 0;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(13,11,9,0.98);
         align-items: center;
-        z-index: 300;
         list-style: none;
+        border-top: 1px solid var(--border);
+        padding: 0.5rem 0 1rem;
       }
       .nav-links.open { display: flex; }
-      .nav-links a { font-size: 1rem; letter-spacing: 0.2em; }
+      .nav-links li { width: 100%; text-align: center; }
+      .nav-links a { font-size: 0.9rem; letter-spacing: 0.2em; display: block; padding: 1rem 0; }
       .hamburger { display: flex; }
       .lang-switcher { margin-left: 0; }
       .nav-monogram { margin-right: auto; }
