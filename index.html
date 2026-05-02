@@ -652,7 +652,7 @@
       .nav-monogram { margin-right: auto; }
 
       /* HERO – fix background-attachment:fixed which breaks on mobile */
-      .hero        { background-attachment: scroll; }
+      .hero        { background-attachment: scroll; background-position: 30% center; }
       .photo-strip { background-attachment: scroll; }
       .hero-content { padding: 9rem 1.25rem 3.5rem; }
 
@@ -1084,7 +1084,7 @@
           </div>
         </div>
 
-        <form id="rsvp-form" action="https://formspree.io/f/xpqkldbl" method="POST">
+        <form id="rsvp-form">
           <div class="form-row">
             <div class="form-group">
               <label for="first-name" data-i18n="form.firstname">First Name *</label>
@@ -1247,6 +1247,8 @@
       });
     });
 
+    var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwRrKS46ey-ywFYVRYw-4rDBD59Omms5oXCLq2x1DK0yh2aRmTgO01lLixdxY_pVzev/exec';
+
     document.getElementById('rsvp-form').addEventListener('submit', function (e) {
       e.preventDefault();
 
@@ -1262,35 +1264,47 @@
         return;
       }
 
-      const newRsvp = {
-        name:      firstName + ' ' + lastName,
-        email,
-        cocktail:    attendedCocktail.value,
-        wedding:     attendedWedding.value,
-        afterparty:  attendedAfterparty.value,
-        guests:    attendedWedding.value === 'yes' ? document.getElementById('guests').value : '—',
-        dietary:   document.getElementById('dietary').value.trim() || '—',
-        message:   document.getElementById('message').value.trim() || '—',
-        date:      new Date().toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })
+      const submitBtn = document.querySelector('.btn-submit');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      const payload = {
+        'first-name':             firstName,
+        'last-name':              lastName,
+        'email':                  email,
+        'attending-cocktail':     attendedCocktail.value,
+        'plusone-cocktail-name':  document.querySelector('input[name="plusone-cocktail-name"]').value.trim(),
+        'attending-wedding':      attendedWedding.value,
+        'plusone-wedding-name':   document.querySelector('input[name="plusone-wedding-name"]').value.trim(),
+        'attending-afterparty':   attendedAfterparty.value,
+        'plusone-afterparty-name':document.querySelector('input[name="plusone-afterparty-name"]').value.trim(),
+        'dietary':                document.getElementById('dietary').value.trim(),
+        'message':                document.getElementById('message').value.trim()
       };
 
-      let existing = [];
-      try { existing = JSON.parse(localStorage.getItem('rsvps') || '[]'); } catch(e) {}
-      existing.push(newRsvp);
-      try { localStorage.setItem('rsvps', JSON.stringify(existing)); } catch(e) {}
+      fetch(SHEETS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(function() {
+        const yes = attendedWedding.value === 'yes';
+        document.getElementById('confirm-title').textContent = yes
+          ? 'We cannot wait to see you, ' + firstName + '!'
+          : 'We will miss you, ' + firstName + '.';
+        document.getElementById('confirm-sub').textContent = yes
+          ? 'Your RSVP has been saved. See you in Tarragona!'
+          : 'Thank you for letting us know!';
 
-      const yes = attendedWedding.value === 'yes'; 
-      document.getElementById('confirm-title').textContent = yes
-        ? `We cannot wait to see you, ${firstName}!`
-        : `We will miss you, ${firstName}.`;
-      document.getElementById('confirm-sub').textContent = yes
-        ? 'Your RSVP has been saved. See you in Tarragona!'
-        : 'Thank you for letting us know!';
-
-      document.getElementById('rsvp-form').style.display = 'none';
-      document.getElementById('rsvp-confirmation').classList.add('visible');
-
-      renderLog();
+        document.getElementById('rsvp-form').style.display = 'none';
+        document.getElementById('rsvp-confirmation').classList.add('visible');
+      })
+      .catch(function() {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send RSVP';
+        alert('Something went wrong. Please try again or email us directly.');
+      });
     });
 
     function renderLog() {
