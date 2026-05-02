@@ -40,9 +40,9 @@
       position: fixed;
       top: 0; width: 100%;
       z-index: 200;
-      overflow: visible;
       padding: 1.25rem 2.5rem;
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
       background: rgba(13,11,9,0.85);
@@ -638,19 +638,16 @@
         display: none;
         flex-direction: column;
         gap: 0;
-        position: absolute;
-        top: 100%;
-        left: 0;
         width: 100%;
-        background: rgba(13,11,9,0.98);
         align-items: center;
         list-style: none;
         border-top: 1px solid var(--border);
-        padding: 0.5rem 0 1rem;
+        padding: 0.75rem 0 0.25rem;
+        margin: 0;
       }
       .nav-links.open { display: flex; }
       .nav-links li { width: 100%; text-align: center; }
-      .nav-links a { font-size: 0.9rem; letter-spacing: 0.2em; display: block; padding: 1rem 0; }
+      .nav-links a { font-size: 0.9rem; letter-spacing: 0.2em; display: block; padding: 0.85rem 0; }
       .hamburger { display: flex; }
       .lang-switcher { margin-left: 0; }
       .nav-monogram { margin-right: auto; }
