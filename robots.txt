@@ -1,0 +1,17 @@
+User-agent: *
+Disallow: /
+
+# Wedding website — please don't index, but let Open Graph
+# scrapers (WhatsApp, iMessage, LinkedIn, etc.) still work.
+User-agent: facebookexternalhit
+Allow: /
+User-agent: WhatsApp
+Allow: /
+User-agent: Twitterbot
+Allow: /
+User-agent: LinkedInBot
+Allow: /
+User-agent: Slackbot-LinkExpanding
+Allow: /
+User-agent: Discordbot
+Allow: /
