@@ -189,6 +189,84 @@
                     font-size: 16px;
                 }
             }
+
+            /* ─── CUSTOM GATE STYLING (Nella & Toni) ─────────
+               Background photo + dark overlay, matching the
+               main site's typography and color palette.
+            ───────────────────────────────────────────────── */
+            @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+            html, body { height: 100%; }
+
+            .staticrypt-body {
+                margin: 0;
+                min-height: 100vh;
+                font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+                background-image:
+                    linear-gradient(rgba(13, 11, 9, 0.55), rgba(13, 11, 9, 0.55)),
+                    url('gate-bg.jpg');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+            }
+
+            .staticrypt-page { padding-top: 12vh; }
+
+            .staticrypt-form {
+                background: rgba(245, 240, 235, 0.96);
+                border-radius: 4px;
+                box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.5);
+                padding: 3rem 2.5rem;
+                max-width: 380px;
+            }
+
+            .staticrypt-title {
+                font-family: 'Playfair Display', Georgia, serif;
+                font-size: 1.9rem;
+                font-weight: 400;
+                font-style: italic;
+                color: #C9A84C;
+                margin: 0 0 0.5rem;
+                letter-spacing: 0.02em;
+            }
+
+            .staticrypt-instructions p:not(.staticrypt-title) {
+                font-size: 0.92rem;
+                color: rgba(13, 11, 9, 0.75);
+                line-height: 1.6;
+                margin: 0;
+            }
+
+            .staticrypt-hr {
+                border-top-color: rgba(201, 168, 76, 0.35);
+                margin: 1.5rem 0;
+            }
+
+            .staticrypt-password-container {
+                background: #FFFFFF;
+                border: 1px solid rgba(13, 11, 9, 0.1);
+            }
+
+            .staticrypt-form .staticrypt-decrypt-button {
+                background: #0D0B09;
+                color: #EDE8DF;
+                font-family: 'DM Sans', sans-serif;
+                font-size: 0.78rem;
+                font-weight: 500;
+                letter-spacing: 0.18em;
+                padding: 16px;
+                cursor: pointer;
+                transition: background 0.2s ease;
+            }
+            .staticrypt-form .staticrypt-decrypt-button:hover {
+                background: #C9A84C;
+            }
+
+            .staticrypt-remember {
+                font-size: 0.82rem;
+                color: rgba(13, 11, 9, 0.6);
+            }
         </style>
     </head>
 
