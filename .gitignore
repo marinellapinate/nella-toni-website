@@ -1,0 +1,13 @@
+# Keep the unencrypted source out of the public GitHub repo.
+# Only the encrypted index.html should be deployed.
+wedding-website_1.html
+
+# Keep the previous unencrypted version out too
+index_old.html
+
+# Local diagnostic / utility scripts
+diagnose-preview.ps1
+make-preview.ps1
+
+# Stray file from a typo
+git
